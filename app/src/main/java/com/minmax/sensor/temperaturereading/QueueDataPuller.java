@@ -30,7 +30,7 @@ public class QueueDataPuller {
     /* SQS queue */
     private AmazonSQS sqs;
 
-    private static final String TAG = "MyActivity";
+    private static final String TAG = "SQSActivity";
 
     public QueueDataPuller(Context appContext) {
         // TODO: Gather the cognito credentials from the User rather than initializing deep inside the config
@@ -70,7 +70,6 @@ public class QueueDataPuller {
             // or all the messages are in flight
             Log.d(TAG, "Queue is empty");
         }
-
 
         return content;
     }
