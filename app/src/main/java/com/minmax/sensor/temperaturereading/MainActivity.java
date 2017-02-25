@@ -1,13 +1,11 @@
 package com.minmax.sensor.temperaturereading;
 
-import android.os.Bundle;
-import android.widget.Button;
-import android.view.View;
-import android.widget.TextView;
-import android.content.Context;
-import android.os.AsyncTask;
-
 import android.app.Activity;
+import android.os.AsyncTask;
+import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
+import android.widget.TextView;
 
 public class MainActivity extends Activity {
 
@@ -16,28 +14,27 @@ public class MainActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         final Button button = (Button) findViewById(R.id.temperaturebutton);
-        final Activity activity = this;
         button.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                new TemperatureTask().execute(activity);
+                new TemperatureTask().execute();
             }
         });
     }
 
-    class TemperatureTask extends AsyncTask<Context, Void, Void> {
+    class TemperatureTask extends AsyncTask<Void, Void, Void> {
         private String currentTemperature;
 
         @Override
-        protected Void doInBackground(Context... context) {
-            final QueueDataPuller queueDataPuller = new QueueDataPuller(context[0]);
-            currentTemperature = queueDataPuller.getCurrentTemperature();
+        protected Void doInBackground(Void... v) {
+            final QueueDataPuller queueDataPuller = new QueueDataPuller(getApplicationContext());
+            currentTemperature = queueDataPuller.getCurrentTemperature(getApplicationContext());
             return null;
         }
 
         @Override
-        protected void onPostExecute(Void result) {
+        protected void onPostExecute(Void v) {
             final TextView textViewTemperature = (TextView) findViewById(R.id.temperaturetext);
-            textViewTemperature.setText(currentTemperature + "\u00B0" +"C");
+            textViewTemperature.setText(currentTemperature + "\u00B0" + "C");
         }
     }
 }
